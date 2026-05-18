@@ -30,9 +30,11 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
+
                 Section::make('Informacion Personal')
                 ->columns(3)
                 ->schema([
+                    //--
                     Forms\Components\TextInput::make('name')
                         ->required(),
                     Forms\Components\TextInput::make('email')
@@ -46,6 +48,7 @@ class UserResource extends Resource
                 Section::make('Address Info')
                 ->columns(3)
                 ->schema([
+                    //--
                     Forms\Components\Select::make('country_id')
                     ->relationship(name:'country', titleAttribute:'name')
                     ->searchable()
