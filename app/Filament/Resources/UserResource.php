@@ -45,8 +45,8 @@ class UserResource extends Resource
                         ->required(),
                     Forms\Components\TextInput::make('password')
                         ->password()
-                        ->hiddenOn('edit')
-                        ->required(),
+                        ->dehydrated(fn (?string $state): bool => filled($state))
+                        ->required(fn (string $context): bool => $context === 'create'),
                 ]),
 
                 Section::make('Address Info')
@@ -128,6 +128,7 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -146,7 +147,7 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
+            'index' => Pages\ListUsers::route('/list'),
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
